@@ -1,3 +1,6 @@
+# PLEASE READ irda-utils DOCUMENTATION ABOUT MODYFING modules.conf FILE FOR PROPER irda WORKING
+# it's very important to add alias irda0 your_module to get irda-utils working in FIR case
+
 #
 # Activate IrDA?
 #
