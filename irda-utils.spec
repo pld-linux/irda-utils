@@ -7,7 +7,7 @@ Version:	0.9.15
 Release:	3
 License:	GPL
 Group:		Applications/System
-Source0:	http://prdownloads.sourceforge.net/irda/%{name}-%{version}.tar.gz
+Source0:	http://dl.sourceforge.net/irda/%{name}-%{version}.tar.gz
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 URL:		http://irda.sourceforge.net/
@@ -15,8 +15,8 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libtool
 BuildRequires:	glib-devel
+Requires(post,preun):	/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-Prereq:		/sbin/chkconfig
 
 %description
 IrDA is an exciting way of communicating with remote devices. IrDA
@@ -139,7 +139,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 /sbin/chkconfig --add irda
-
 if [ -f /var/lock/subsys/irda ]; then
 	/etc/rc.d/init.d/irda restart >&2
 fi
