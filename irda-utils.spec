@@ -2,7 +2,7 @@ Summary:	IrDA Utilities
 Summary(pl):	Narzêdzia do IrDA
 Name:		irda-utils
 Version:	0.9.15
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/System
 Source0:	http://prdownloads.sourceforge.net/irda/%{name}-%{version}.tar.gz
@@ -13,7 +13,6 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libtool
 BuildRequires:	glib-devel
-ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Prereq:		/sbin/chkconfig
 
@@ -71,31 +70,38 @@ Pliki nag³ówkowe IrDA, do budowania aplikacji korzystaj±cych z IrDA.
 %setup -q
 
 %build
+%ifarch %{ix86}
 cd findchip
 %{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
-# %{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT" gfindchip
+cd ..
+%endif
 
-cd ../irattach
+cd irattach
 %{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
+cd ..
 
-cd ../irdadump
+cd irdadump
 %{__libtoolize}
 aclocal
 %{__autoconf}
 %{__automake}
 %configure
 %{__make}
+cd ..
 
-cd ../irdaping
+cd irdaping
 %{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
+cd ..
 
-# cd ../irsockets
-# %{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
-
-cd ../psion
+cd irsockets
 %{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
+cd ..
 
-cd ../tekram
+cd psion
+%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
+cd ..
+
+cd tekram
 %{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
 
 %install
@@ -103,8 +109,9 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_bindir},%{_includedir}} \
 	$RPM_BUILD_ROOT/etc/{rc.d/init.d,sysconfig}
 
+%ifarch %{ix86}
 install findchip/findchip $RPM_BUILD_ROOT%{_sbindir}
-# install findchip/gfindchip $RPM_BUILD_ROOT%{_prefix}/X11R6/bin
+%endif
 install irattach/irattach $RPM_BUILD_ROOT%{_sbindir}
 install irattach/dongle_attach $RPM_BUILD_ROOT%{_sbindir}
 install irattach/README README.irattach
@@ -118,8 +125,6 @@ install include/irda.h $RPM_BUILD_ROOT%{_includedir}
 
 install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/irda
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/irda
-
-gzip -9nf README* etc/modules.conf.irda
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -141,7 +146,7 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz etc/*.gz
+%doc README* etc/modules.conf.irda
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_bindir}/*
 %attr(754,root,root) /etc/rc.d/init.d/irda
