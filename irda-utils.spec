@@ -1,19 +1,21 @@
 #
 %define         _kernel24       %(echo %{_kernel_ver} | grep -qv '2\.4\.' ; echo $?)
 Summary:	IrDA Utilities
+Summary(es):	Herramientas de IrDA
 Summary(pl):	Narzêdzia do IrDA
 Name:		irda-utils
 Version:	0.9.15
-Release:	4
+Release:	5
 License:	GPL
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/irda/%{name}-%{version}.tar.gz
 # Source0-md5:	b69b75464d6ee72e6600a8459d9b68ac
+Patch0:		%{name}-gtk+2.patch
 URL:		http://irda.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libtool
-BuildRequires:	glib-devel
+BuildRequires:	glib2-devel
 Requires(post,preun):	/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -38,6 +40,27 @@ like IrOBEX is actually implemented in user-space.
 Most of the features are implemented in the kernel, so you must enable
 IrDA support in the kernel before you can use any of the tools and
 programs mentioned in this document.
+
+%description -l es
+IrDA es una manera excitante de comunicar con dispositivos remotos.
+IrDA usa comunicación inalámbrica infrarroja así que no hacen falta
+ningunos cables. Las velocidades varian entre 9600 bps y 4 Mbps. Los
+equipos que soportan IrDA son adaptadores de LAN, PDAs, impresoras,
+portátiles, teléfonos móviles etc.
+
+Linux-IrDA es una implementación GNU de las especificaciones de los
+protocolos de IrDA. Linux-Irda soporta la mayoría de los protocolos:
+IrLAP, IrLMP, IrIAP, IrTTP, IrLPT, IrLAN, IrCOMM y IrOBEX.
+
+El paquete IrDA Utils es una colección de programas que permite el uso
+de los protocolos de IrDA. Hay que configurar algunas cosas para hacer
+IrDA funcionar en su máquina, y algunas cualidaded de IrDA están
+implementadas en el espacio del usuario.
+
+La mayoría de las cualidades es implementada en el núcleo, así que
+tiene que habilitar el soporte de IrDA en el núcleo antes de poder
+utilizar cualquiera de las herramientas y los programas aquí
+mencionados.
 
 %description -l pl
 IrDA jest sposobem bezprzewodowej komunikacji z urz±dzeniami
@@ -71,6 +94,7 @@ Pliki nag³ówkowe IrDA, do budowania aplikacji korzystaj±cych z IrDA.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %ifarch %{ix86}
