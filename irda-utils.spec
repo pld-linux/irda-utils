@@ -2,7 +2,7 @@ Summary:	IrDA Utilities
 Summary(pl):	Narzêdzia do IrDA
 Name:		irda-utils
 Version:	0.9.14
-Release:	1
+Release:	2
 Source0:	http://prdownloads.sourceforge.net/irda/%{name}-%{version}.tar.gz
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
@@ -105,6 +105,7 @@ gzip -9nf README* etc/modules.conf.irda
 
 %files
 %defattr(644,root,root,755)
+%doc *.gz etc/*.gz
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_bindir}/*
 %attr(754,root,root) /etc/rc.d/init.d/irda
