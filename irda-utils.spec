@@ -4,7 +4,7 @@ Summary:	IrDA Utilities
 Summary(pl):	Narzêdzia do IrDA
 Name:		irda-utils
 Version:	0.9.15
-Release:	2
+Release:	3
 License:	GPL
 Group:		Applications/System
 Source0:	http://prdownloads.sourceforge.net/irda/%{name}-%{version}.tar.gz
