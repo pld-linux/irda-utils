@@ -2,7 +2,7 @@ Summary:	IrDA Utilities
 Summary(pl):	Narzêdzia do IrDA
 Name:		irda-utils
 Version:	0.9.14
-Release:	2
+Release:	3
 License:	GPL
 Group:		Applications/System
 Group(de):	Applikationen/System
@@ -105,6 +105,21 @@ install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/irda
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/irda
 
 gzip -9nf README* etc/modules.conf.irda
+
+%post
+/sbin/chkconfig --add irda
+
+if [ -f /var/lock/subsys/irda ]; then
+	/etc/rc.d/init.d/irda restart >&2
+fi
+
+%preun
+if [ "$1" = 0 ]; then
+	if [ -f /var/lock/subsys/irda ]; then
+		/etc/rc.d/init.d/irda stop >&2
+	fi
+	/sbin/chkconfig --del irda
+fi
 
 %clean
 rm -rf $RPM_BUILD_ROOT
