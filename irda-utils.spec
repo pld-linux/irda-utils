@@ -1,5 +1,3 @@
-#
-%define         _kernel24       %(echo %{_kernel_ver} | grep -qv '2\.4\.' ; echo $?)
 Summary:	IrDA Utilities
 Summary(es):	Herramientas de IrDA
 Summary(pl):	Narzêdzia do IrDA
@@ -11,11 +9,13 @@ Group:		Applications/System
 Source0:	http://dl.sourceforge.net/irda/%{name}-%{version}.tar.gz
 # Source0-md5:	2ff18f0571b5a331be7cd22fc3decd41
 Patch0:		%{name}-gtk+2.patch
+Patch1:		%{name}-includes.patch
 URL:		http://irda.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libtool
-BuildRequires:	glib2-devel
+BuildRequires:	glib2-devel >= 2.0.0
+BuildRequires:	linux-libc-headers >= 2.4.0
 Requires(post,preun):	/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -95,44 +95,40 @@ Pliki nag³ówkowe IrDA, do budowania aplikacji korzystaj±cych z IrDA.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %ifarch %{ix86}
-cd findchip
-%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
-cd ..
+%{__make} -C findchip \
+	RPM_OPT_FLAGS="%{rpmcflags}"
 %endif
 
-cd irattach
-%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
-cd ..
+%{__make} -C irattach \
+	RPM_OPT_FLAGS="%{rpmcflags}"
 
 cd irdadump
-rm -f missing
 %{__libtoolize}
 %{__aclocal}
 %{__autoconf}
+%{__autoheader}
 %{__automake}
 %configure
 %{__make}
 cd ..
 
-cd irdaping
-%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
-cd ..
+%{__make} -C irdaping \
+	RPM_OPT_FLAGS="%{rpmcflags}"
 
-%if %{_kernel24}
-cd irsockets
-%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
-cd ..
-%endif
+%{__make} -C irsockets \
+	RPM_OPT_FLAGS="%{rpmcflags}" \
+	SYS_INCLUDES=
 
-cd psion
-%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
-cd ..
+%{__make} -C psion \
+	RPM_OPT_FLAGS="%{rpmcflags}"
 
-cd tekram
-%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
+%{__make} -C tekram \
+	RPM_OPT_FLAGS="%{rpmcflags}" \
+	SYS_INCLUDES="-I../include"
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -146,10 +142,8 @@ install irattach/README README.irattach
 install irdadump/shell/irdadump $RPM_BUILD_ROOT%{_sbindir}
 install irdadump/README README.irdadump
 install irdaping/irdaping $RPM_BUILD_ROOT%{_sbindir}
-%if %{_kernel24}
 install irsockets/{ias_query,irdaspray,irprintf,irprintfx,irscanf,irscanfx,recv_ultra,send_ultra} $RPM_BUILD_ROOT%{_sbindir}
 install irsockets/README README.irsockets
-%endif
 install psion/irpsion5 $RPM_BUILD_ROOT%{_bindir}
 install tekram/irkbd $RPM_BUILD_ROOT%{_sbindir}
 install tekram/README README.tekram
