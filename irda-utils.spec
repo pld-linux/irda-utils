@@ -4,13 +4,11 @@ Summary:	IrDA Utilities
 Summary(pl):	Narzêdzia do IrDA
 Name:		irda-utils
 Version:	0.9.15
-Release:	3
+Release:	4
 License:	GPL
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/irda/%{name}-%{version}.tar.gz
 # Source0-md5:	b69b75464d6ee72e6600a8459d9b68ac
-Source1:	%{name}.init
-Source2:	%{name}.sysconfig
 URL:		http://irda.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -18,6 +16,8 @@ BuildRequires:	libtool
 BuildRequires:	glib-devel
 Requires(post,preun):	/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define		_sbindir	/sbin
 
 %description
 IrDA is an exciting way of communicating with remote devices. IrDA
@@ -112,8 +112,7 @@ cd tekram
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sbindir},%{_bindir},%{_includedir}} \
-	$RPM_BUILD_ROOT/etc/{rc.d/init.d,sysconfig}
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_bindir},%{_includedir}}
 
 %ifarch %{ix86}
 install findchip/findchip $RPM_BUILD_ROOT%{_sbindir}
@@ -132,33 +131,14 @@ install tekram/irkbd $RPM_BUILD_ROOT%{_sbindir}
 install tekram/README README.tekram
 install include/irda.h $RPM_BUILD_ROOT%{_includedir}
 
-install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/irda
-install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/irda
-
 %clean
 rm -rf $RPM_BUILD_ROOT
-
-%post
-/sbin/chkconfig --add irda
-if [ -f /var/lock/subsys/irda ]; then
-	/etc/rc.d/init.d/irda restart >&2
-fi
-
-%preun
-if [ "$1" = 0 ]; then
-	if [ -f /var/lock/subsys/irda ]; then
-		/etc/rc.d/init.d/irda stop >&2
-	fi
-	/sbin/chkconfig --del irda
-fi
 
 %files
 %defattr(644,root,root,755)
 %doc README* etc/modules.conf.irda
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_bindir}/*
-%attr(754,root,root) /etc/rc.d/init.d/irda
-%config(noreplace) %verify(not size mtime md5) /etc/sysconfig/irda
 
 %files devel
 %defattr(644,root,root,755)
