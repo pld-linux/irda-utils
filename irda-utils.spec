@@ -3,14 +3,18 @@ Summary(pl):	Narzêdzia do IrDA
 Name:		irda-utils
 Version:	0.9.14
 Release:	2
-Source0:	http://prdownloads.sourceforge.net/irda/%{name}-%{version}.tar.gz
-Source1:	%{name}.init
-Source2:	%{name}.sysconfig
-URL:		http://irda.sourceforge.net
 License:	GPL
 Group:		Applications/System
 Group(de):	Applikationen/System
 Group(pl):	Aplikacje/System
+Source0:	http://prdownloads.sourceforge.net/irda/%{name}-%{version}.tar.gz
+Source1:	%{name}.init
+Source2:	%{name}.sysconfig
+URL:		http://irda.sourceforge.net/
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool
+BuildRequires:	glib-devel
 ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -82,7 +86,7 @@ cd ../tekram
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_bindir},%{_includedir}} \
-$RPM_BUILD_ROOT%{_sysconfdir}/{rc.d/init.d,sysconfig}
+	$RPM_BUILD_ROOT/etc/{rc.d/init.d,sysconfig}
 
 install findchip/findchip $RPM_BUILD_ROOT%{_sbindir}
 # install findchip/gfindchip $RPM_BUILD_ROOT%{_prefix}/X11R6/bin
@@ -102,6 +106,8 @@ install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/irda
 
 gzip -9nf README* etc/modules.conf.irda
 
+%clean
+rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
@@ -114,6 +120,3 @@ gzip -9nf README* etc/modules.conf.irda
 %files devel
 %defattr(644,root,root,755)
 %{_includedir}/*
-
-%clean
-rm -rf $RPM_BUILD_ROOT
