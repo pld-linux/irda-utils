@@ -49,11 +49,12 @@ IrLPT, IrLAN, IrCOMM, IrOBEX.
 
 Pakiet irda-utils jest zestawem programów pozwalaj±cych na u¿ywanie
 protoko³ów IrDA. Czê¶æ narzêdzi jest wymaganych do uruchomienia IrDA,
-czê¶æ mo¿liwo¶ci, jak np. IrOBEX, jest zaimplementowanych w user-space.
+czê¶æ mo¿liwo¶ci, jak np. IrOBEX, jest zaimplementowanych w
+user-space.
 
 Wiêkszo¶æ mo¿liwo¶ci jest zaimplementowanych w j±drze, wiêc musisz
-mieæ j±dro z obs³ug± IrDA zanim u¿yjesz jakiegokolwiek narzêdzia
-z tego pakietu.
+mieæ j±dro z obs³ug± IrDA zanim u¿yjesz jakiegokolwiek narzêdzia z
+tego pakietu.
 
 %package devel
 Summary:	IrDA header files
