@@ -1,0 +1,11 @@
+--- irda-utils-0.9.15.orig/irdadump/configure.in	2000-11-06 22:11:49.000000000 +0100
++++ irda-utils-0.9.15/irdadump/configure.in	2003-11-21 17:07:08.000000000 +0100
+@@ -9,7 +9,7 @@
+ 
+ dnl Checks for libraries.
+ AM_PROG_LIBTOOL
+-AM_PATH_GLIB(1.2.0)
++PKG_CHECK_MODULES(GLIB, glib-2.0)
+ 
+ dnl Checks for header files.
+ AC_HEADER_STDC
