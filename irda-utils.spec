@@ -62,8 +62,12 @@ Summary:	IrDA header files
 Summary(pl):	Pliki nagЁСwkowe IrDA
 Group:		Development/Libraries
 Group(de):	Entwicklung/Libraries
+Group(es):	Desarrollo/Bibliotecas
 Group(fr):	Development/Librairies
 Group(pl):	Programowanie/Biblioteki
+Group(pt_BR):	Desenvolvimento/Bibliotecas
+Group(ru):	Разработка/Библиотеки
+Group(uk):	Розробка/Б╕бл╕отеки
 
 %description devel
 IrDA header files to be used by IrDA applications.
