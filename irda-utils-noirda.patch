@@ -1,0 +1,158 @@
+--- irda-utils-0.9.4/obex_apps/Makefile.noirda	Tue Sep  7 18:03:12 1999
++++ irda-utils-0.9.4/obex_apps/Makefile	Fri Sep 17 18:25:40 1999
+@@ -31,9 +31,10 @@
+ EXECS = irobex_palm3 irobex_test irobex_receive irxfer obex_tcp
+ RM_CMD = $(RM) *.BAK *.bak *.o ,* *~ *.a core $(EXECS)
+ 
+-INCLUDES = -I$(ROOT)/include/irda -I$(ROOT)/include/obex -I/usr/lib/glib/include
++INCLUDES = -I$(ROOT)/include/irda -I$(ROOT)/include/obex \
++	-I/usr/lib/glib/include -I../obex/src -I../irdalib/include
+ LIBRARIES = -lobex -lirda -lglib
+-LIBPATH = -L$(ROOT)/lib
++LIBPATH = -L$(ROOT)/lib -L../obex/src/.libs -L../irdalib/src/.libs
+ 
+ CFLAGS = $(RPM_OPT_FLAGS) -Wall $(INCLUDES)
+ 
+--- irda-utils-0.9.4/obex_apps/irobex_palm3.c.noirda	Tue Sep  7 18:03:12 1999
++++ irda-utils-0.9.4/obex_apps/irobex_palm3.c	Fri Sep 17 18:25:40 1999
+@@ -53,7 +53,7 @@
+ 
+ #include <netinet/in.h>
+ 
+-#include <obex/obex.h>
++#include <obex.h>
+ 
+ #ifndef AF_IRDA
+ #define AF_IRDA 23
+--- irda-utils-0.9.4/obex_apps/irobex_test.c.noirda	Tue Sep  7 18:03:12 1999
++++ irda-utils-0.9.4/obex_apps/irobex_test.c	Fri Sep 17 18:25:40 1999
+@@ -11,7 +11,7 @@
+ #include <sys/stat.h>
+ #include <string.h>
+ 
+-#include <obex/obex.h>
++#include <obex.h>
+ 
+ #ifndef AF_IRDA
+ #define AF_IRDA 23
+--- irda-utils-0.9.4/obex_apps/irobex_receive.c.noirda	Tue Sep  7 18:03:12 1999
++++ irda-utils-0.9.4/obex_apps/irobex_receive.c	Fri Sep 17 18:25:40 1999
+@@ -32,7 +32,7 @@
+ #include <stdio.h>
+ #include <stdlib.h>
+ 
+-#include <obex/obex.h>
++#include <obex.h>
+ 
+ #ifndef AF_IRDA
+ #define AF_IRDA 23
+--- irda-utils-0.9.4/obex_apps/irxfer.c.noirda	Tue Sep  7 18:03:12 1999
++++ irda-utils-0.9.4/obex_apps/irxfer.c	Fri Sep 17 18:25:40 1999
+@@ -41,7 +41,7 @@
+ 
+ #include <netinet/in.h>
+ 
+-#include <obex/obex.h>
++#include <obex.h>
+ 
+ #ifndef AF_IRDA
+ #define AF_IRDA 23
+--- irda-utils-0.9.4/obex_apps/obex_tcp.c.noirda	Tue Sep  7 18:03:12 1999
++++ irda-utils-0.9.4/obex_apps/obex_tcp.c	Fri Sep 17 18:25:40 1999
+@@ -39,7 +39,7 @@
+ #include <arpa/inet.h>
+ #include <netdb.h>
+ 
+-#include <obex/obex.h>
++#include <obex.h>
+ 
+ volatile int finished = FALSE;
+ volatile int connected = FALSE;
+--- irda-utils-0.9.4/gnobex/gnobex/Makefile.am.noirda	Tue Sep  7 18:03:14 1999
++++ irda-utils-0.9.4/gnobex/gnobex/Makefile.am	Fri Sep 17 18:25:40 1999
+@@ -1,6 +1,7 @@
+ ## Process this file with automake to produce Makefile.in
+ 
+-INCLUDES = @GTK_CFLAGS@ -I$(prefix)/include/obex/ -I$(prefix)/include/irda
++INCLUDES = @GTK_CFLAGS@ -I$(prefix)/include/obex/ -I$(prefix)/include/irda \
++	-I../../obex/src -I../../irdalib/include
+ 
+ CFLAGS += -g
+ 
+@@ -9,4 +10,6 @@
+ gnobex_SOURCES = \
+ 	gnobex_src.c gnobex_src.h \
+ 	gnobex_sig.c gnobex_sig.h
+-gnobex_LDADD = @GTK_LIBS@ libobex.a libirda.a
++gnobex_LDADD = @GTK_LIBS@ \
++	../../obex/src/.libs/libobex.a \
++	../../irdalib/src/.libs/libirda.a
+--- irda-utils-0.9.4/irdadump/gtk/Makefile.am.noirda	Fri Sep 17 18:26:46 1999
++++ irda-utils-0.9.4/irdadump/gtk/Makefile.am	Fri Sep 17 18:27:01 1999
+@@ -7,4 +7,4 @@
+ irdadump_SOURCES = \
+ 	irdadump_src.c irdadump_src.h \
+ 	irdadump_sig.c irdadump_sig.h
+-irdadump_LDADD = @GTK_LIBS@ ../lib/libirdadump.a ../../irdalib/src/libirda.a
++irdadump_LDADD = @GTK_LIBS@ ../lib/libirdadump.a ../../irdalib/src/.libs/libirda.a
+--- irda-utils-0.9.4/irdadump/nox/Makefile.am.noirda	Tue Sep  7 18:03:20 1999
++++ irda-utils-0.9.4/irdadump/nox/Makefile.am	Fri Sep 17 18:25:40 1999
+@@ -6,5 +6,4 @@
+ 
+ irdadump_SOURCES = \
+         main.c
+-irdadump_LDADD = @GLIB_LIBS@ ../lib/libirdadump.a ../../irdalib/src/libirda.a
+-		
++irdadump_LDADD = @GLIB_LIBS@ ../lib/libirdadump.a ../../irdalib/src/.libs/libirda.a
+--- irda-utils-0.9.4/irdadump/lib/Makefile.am.noirda	Tue Sep  7 18:03:21 1999
++++ irda-utils-0.9.4/irdadump/lib/Makefile.am	Fri Sep 17 18:25:40 1999
+@@ -1,4 +1,4 @@
+-INCLUDES = @GLIB_CFLAGS@ -I$(prefix)/include/irda 
++INCLUDES = @GLIB_CFLAGS@ -I$(prefix)/include/irda -I../../irdalib/include
+ 
+ noinst_LIBRARIES = libirdadump.a
+ 
+--- irda-utils-0.9.4/irdadump/autogen.sh.noirda	Tue Sep  7 18:03:21 1999
++++ irda-utils-0.9.4/irdadump/autogen.sh	Fri Sep 17 18:25:40 1999
+@@ -61,7 +61,7 @@
+   am_opt=--include-deps;;
+ esac
+ 
+-for i in . nox gtk
++for i in . gtk
+ do 
+   echo processing $i
+   (cd $i; \
+--- irda-utils-0.9.4/obex/src/Makefile.am.noirda	Tue Sep  7 18:03:22 1999
++++ irda-utils-0.9.4/obex/src/Makefile.am	Fri Sep 17 18:25:40 1999
+@@ -3,7 +3,7 @@
+ 
+ lib_LTLIBRARIES = libobex.la
+ 
+-INCLUDES = @GLIB_CFLAGS@
++INCLUDES = @GLIB_CFLAGS@ -I../../irdalib/include
+ 
+ libobexincludedir = $(includedir)/obex
+ 
+--- irda-utils-0.9.4/obex/src/obex_object.h.noirda	Tue Sep  7 18:03:22 1999
++++ irda-utils-0.9.4/obex/src/obex_object.h	Fri Sep 17 18:25:40 1999
+@@ -31,7 +31,7 @@
+ #ifndef OBEX_OBJECT_H
+ #define OBEX_OBJECT_H
+ 
+-#include <irda/gnetbuf.h>
++#include <gnetbuf.h>
+ 
+ typedef struct {
+ 	char name[64];
+--- irda-utils-0.9.4/obex/src/obex_main.h.noirda	Tue Sep  7 18:03:22 1999
++++ irda-utils-0.9.4/obex/src/obex_main.h	Fri Sep 17 18:25:40 1999
+@@ -39,7 +39,7 @@
+ #include "obex_object.h"
+ #include "obex_transport.h"
+ 
+-#include <irda/gnetbuf.h>
++#include <gnetbuf.h>
+ 
+ /* use 0 for production, 1 for verification, >2 for debug */
+ #ifndef NET_DEBUG
