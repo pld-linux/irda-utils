@@ -1,3 +1,5 @@
+#
+%define         _kernel24       %(echo %{_kernel_ver} | grep -q '2\.[012]\.' ; echo $?)
 Summary:	IrDA Utilities
 Summary(pl):	Narzêdzia do IrDA
 Name:		irda-utils
@@ -93,9 +95,11 @@ cd irdaping
 %{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
 cd ..
 
-#cd irsockets
-#%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
-#cd ..
+%if %{_kernel24}
+cd irsockets
+%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
+cd ..
+%endif
 
 cd psion
 %{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
@@ -112,12 +116,15 @@ install -d $RPM_BUILD_ROOT{%{_sbindir},%{_bindir},%{_includedir}} \
 %ifarch %{ix86}
 install findchip/findchip $RPM_BUILD_ROOT%{_sbindir}
 %endif
-install irattach/irattach $RPM_BUILD_ROOT%{_sbindir}
-install irattach/dongle_attach $RPM_BUILD_ROOT%{_sbindir}
+install irattach/{irattach,dongle_attach} $RPM_BUILD_ROOT%{_sbindir}
 install irattach/README README.irattach
-install irdadump/shell/irdadump $RPM_BUILD_ROOT%{_sbindir}/irdadump
+install irdadump/shell/irdadump $RPM_BUILD_ROOT%{_sbindir}
 install irdadump/README README.irdadump
-install irdaping/irdaping $RPM_BUILD_ROOT%{_sbindir}/irdaping
+install irdaping/irdaping $RPM_BUILD_ROOT%{_sbindir}
+%if %{_kernel24}
+install irsockets/{ias_query,irdaspray,irprintf,irprintfx,irscanf,irscanfx,recv_ultra,send_ultra} $RPM_BUILD_ROOT%{_sbindir}
+install irsockets/README README.irsockets
+%endif
 install psion/irpsion5 $RPM_BUILD_ROOT%{_bindir}
 install tekram/irkbd $RPM_BUILD_ROOT%{_sbindir}
 install tekram/README README.tekram
