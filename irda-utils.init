@@ -1,0 +1,67 @@
+#!/bin/sh
+#
+# irda          This shell script takes care of starting and stopping
+#               IrDA support
+#
+# chkconfig: 2345 45 96
+#
+# description: IrDA stack for Linux
+#
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Source IrDA networking configuration.
+. /etc/sysconfig/irda
+
+# Check that irda is up.
+is_no "$IRDA" && exit 0
+
+[ -x /usr/sbin/irattach ] || exit 0
+
+ARGS=
+if [ -n "$DONGLE" ]; then
+	ARGS="$ARGS -d $DONGLE"
+fi
+if is_yes "$DISCOVERY"; then
+	ARGS="$ARGS -s"
+fi
+
+# See how we were called.
+case "$1" in
+  start)
+	if [ ! -f /var/lock/subsys/irda ]; then
+	        # Attach irda device 
+ 		msg_starting "IrDA"       
+		daemon /usr/sbin/irattach "${DEVICE}" ${ARGS}
+		RETVAL=$?
+		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/irda
+	else
+		msg_Already_Running "IrDA"
+		exit 1
+	fi
+	;;
+  stop)
+  	if [ -f /var/lock/subsys/irda ]; then
+		msg_stopping "IrDA"
+        	# Stop service.
+		killproc irattach
+		rm -f /var/lock/subsys/irda > /dev/null 2>&1
+	else
+		msg_Not_Running "IrDA"
+		exit 1
+	fi
+        ;;
+  status)
+	status irattach
+	;;
+  restart|reload)
+	$0 stop
+	$0 start
+	;;
+  *)
+        msg_Usage "$0 {start|stop|restart|reload|status}"
+        exit 1
+esac
+
+exit $RETVAL

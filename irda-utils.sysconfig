@@ -1,0 +1,27 @@
+#
+# Activate IrDA?
+#
+IRDA=no
+
+#
+# IrDA  device
+#
+DEVICE=/dev/ttyS1
+
+#
+# Start IrDA discovery?
+#
+DISCOVERY=yes
+
+#
+# Dongle driver. The currently known dongles are:
+# tekram      Tekram IrMate IR-210B dongle
+# esi         Extended Systems JetEye PC (ESI-9680) dongle
+# actisys     ACTiSYS IR-220L dongle
+# actisys+    ACTiSYS IR-220L+ dongle
+# girbil      Greenwich GIrBIL dongle
+# litelink    Parallax LiteLink dongle
+# airport
+# old_belkin  Belkin (old) SmartBeam dongle
+#
+#DONGLE=
