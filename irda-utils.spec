@@ -1,11 +1,12 @@
 Summary:	IrDA Utilities
 Summary(pl):	Narzêdzia do IrDA
 Name:		irda-utils
-Version:	0.9.10
+Version:	0.9.14
 Release:	1
 Source0:	http://www.cs.uit.no/~dagb/irda/irda-utils/%{name}-%{version}.tar.gz
-Patch0:		%{name}-noirda.patch
-Url:		http://www.cs.uit.no/~dagb/irda/irda-utils/
+Source1:	%{name}.init
+Source2:	%{name}.sysconfig
+URL:		http://www.cs.uit.no/~dagb/irda/irda-utils/
 License:	GPL
 Group:		Applications/System
 Group(de):	Applikationen/System
@@ -32,72 +33,84 @@ Most of the features are implemented in the kernel, so you must enable
 IrDA support in the kernel before you can use any of the tools and
 programs mentioned in this document.
 
+%package devel
+Summary:	IrDA header files
+Summary(pl):	Pliki nag³ówkowe IrDA
+Group:		Development/Libraries
+Group(de):	Entwicklung/Libraries
+Group(fr):	Development/Librairies
+Group(pl):	Programowanie/Biblioteki
+
+%description devel
+IrDA header files to be used by IrDA applications.
+
+%description devel -l pl
+Pliki nag³ówkowe IrDA, do budowania aplikacji korzystaj±cych z IrDA.
+
 %prep
 %setup -q
-%patch0 -p1 -b .noirda
 
 %build
-%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT" -C irmanager
+cd findchip
+%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
+# %{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT" gfindchip
 
-pushd irdalib ; {
-	CFLAGS="%{rpmcflags}" CXXFLAGS="%{rpmcflags}" ./autogen.sh --prefix=%{_prefix}
-	%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
-} ; popd
+cd ../irattach
+%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
 
-pushd irdadump ; {
-	CFLAGS="%{rpmcflags}" CXXFLAGS="%{rpmcflags}" ./autogen.sh --prefix=%{_prefix}
-	%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
-	cd gtk
-	CFLAGS="%{rpmcflags}" CXXFLAGS="%{rpmcflags}" ./configure --prefix=%{_prefix}
-	%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
-} ; popd
+cd ../irdadump
+aclocal
+autoconf
+automake -a -c
+%configure
+%{__make}
 
-pushd irdaping ; {
-	%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
-} ; popd
+cd ../irdaping
+%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
 
-pushd obex ; {
-	CFLAGS="%{rpmcflags}" CXXFLAGS="%{rpmcflags}" ./autogen.sh --prefix=%{_prefix}
-	%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
-} ; popd
+# cd ../irsockets
+# %{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
 
-pushd obex_apps ; {
-	%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
-} ; popd
+cd ../psion
+%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
 
-pushd gnobex ; {
-	CFLAGS="%{rpmcflags}" CXXFLAGS="%{rpmcflags}" ./autogen.sh --prefix=%{_prefix}
-	%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
-} ; popd
+cd ../tekram
+%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_sbindir}
-install -d $RPM_BUILD_ROOT%{_bindir} $RPM_BUILD_ROOT%{_prefix}/X11R6/bin
+install -d $RPM_BUILD_ROOT{%{_sbindir},%{_bindir},%{_includedir}} \
+$RPM_BUILD_ROOT%{_sysconfdir}/{rc.d/init.d,sysconfig}
 
-%{__make} install -C irmanager \
-	ROOT="$RPM_BUILD_ROOT" 	DESTDIR=$RPM_BUILD_ROOT
-%{__make} install -C irdalib \
-	ROOT="$RPM_BUILD_ROOT" 	DESTDIR=$RPM_BUILD_ROOT
-%{__make} install -C irdaping \
-	ROOT="$RPM_BUILD_ROOT" 	DESTDIR=$RPM_BUILD_ROOT
-%{__make} install -C obex \
-	ROOT="$RPM_BUILD_ROOT" 	DESTDIR=$RPM_BUILD_ROOT
-%{__make} install -C obex_apps \
-	ROOT="$RPM_BUILD_ROOT"	DESTDIR=$RPM_BUILD_ROOT
+install findchip/findchip $RPM_BUILD_ROOT%{_sbindir}
+# install findchip/gfindchip $RPM_BUILD_ROOT%{_prefix}/X11R6/bin
+install irattach/irattach $RPM_BUILD_ROOT%{_sbindir}
+install irattach/dongle_attach $RPM_BUILD_ROOT%{_sbindir}
+install irattach/README README.irattach
+install irdadump/shell/irdadump $RPM_BUILD_ROOT%{_sbindir}/irdadump
+install irdadump/README README.irdadump
+install irdaping/irdaping $RPM_BUILD_ROOT%{_sbindir}/irdaping
+install psion/irpsion5 $RPM_BUILD_ROOT%{_bindir}
+install tekram/irkbd $RPM_BUILD_ROOT%{_sbindir}
+install tekram/README README.tekram
+install include/irda.h $RPM_BUILD_ROOT%{_includedir}
 
-cp -f irdadump/nox/irdadump $RPM_BUILD_ROOT%{_bindir}
-cp -f irdadump/gtk/irdadump $RPM_BUILD_ROOT%{_prefix}/X11R6/bin/irdadump-X11
-cp -f gnobex/gnobex/gnobex $RPM_BUILD_ROOT%{_prefix}/X11R6/bin/gnobex
+install %{SOURCE1} $RPM_BUILD_ROOT/etc/rc.d/init.d/irda
+install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/irda
+
+gzip -9nf README* etc/modules.conf.irda
+
 
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_sbindir}/*
 %attr(755,root,root) %{_bindir}/*
-%{_prefix}/X11R6/bin/*
-%{_includedir}/irda
-%{_includedir}/obex
-%{_libdir}/*
+%attr(754,root,root) /etc/rc.d/init.d/irda
+%config(noreplace) %verify(not size mtime md5) /etc/sysconfig/irda
+
+%files devel
+%defattr(644,root,root,755)
+%{_includedir}/*
 
 %clean
 rm -rf $RPM_BUILD_ROOT
