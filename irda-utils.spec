@@ -1,9 +1,9 @@
 Summary: IrDA Utilities
 Name: irda-utils
-Version: 0.9.4
+Version: 0.9.10
 Release: 1
-Source: http://www.cs.uit.no/~dagb/irda/irda-utils/irda-utils-0.9.4.tar.gz
-Patch0: irda-utils-0.9.4-noirda.patch
+Source: http://www.cs.uit.no/~dagb/irda/irda-utils/irda-utils-0.9.10.tar.gz
+Patch0: irda-utils-noirda.patch
 Url: http://www.cs.uit.no/~dagb/irda/irda-utils/
 Copyright: GPL
 Group: Applications/System
