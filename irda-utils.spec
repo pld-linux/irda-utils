@@ -5,8 +5,6 @@ Version:	0.9.14
 Release:	4
 License:	GPL
 Group:		Applications/System
-Group(de):	Applikationen/System
-Group(pl):	Aplikacje/System
 Source0:	http://prdownloads.sourceforge.net/irda/%{name}-%{version}.tar.gz
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
@@ -61,13 +59,6 @@ z tego pakietu.
 Summary:	IrDA header files
 Summary(pl):	Pliki nagЁСwkowe IrDA
 Group:		Development/Libraries
-Group(de):	Entwicklung/Libraries
-Group(es):	Desarrollo/Bibliotecas
-Group(fr):	Development/Librairies
-Group(pl):	Programowanie/Biblioteki
-Group(pt_BR):	Desenvolvimento/Bibliotecas
-Group(ru):	Разработка/Библиотеки
-Group(uk):	Розробка/Б╕бл╕отеки
 
 %description devel
 IrDA header files to be used by IrDA applications.
