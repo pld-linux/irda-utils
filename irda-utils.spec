@@ -7,7 +7,7 @@ Patch0: irda-utils-0.9.4-noirda.patch
 Url: http://www.cs.uit.no/~dagb/irda/irda-utils/
 Copyright: GPL
 Group: Applications/System
-BuildRoot: /var/tmp/%{name}-root
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 IrDA is an exciting way of communicating with remote devices. IrDA
@@ -52,7 +52,6 @@ pushd irdaping ; {
   make RPM_OPT_FLAGS="$RPM_OPT_FLAGS" ROOT="$RPM_BUILD_ROOT"
 } ; popd
 
-
 pushd obex ; {
   CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" ./autogen.sh --prefix=/usr
   make RPM_OPT_FLAGS="$RPM_OPT_FLAGS" ROOT="$RPM_BUILD_ROOT"
@@ -66,7 +65,6 @@ pushd gnobex ; {
   CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" ./autogen.sh --prefix=/usr
   make RPM_OPT_FLAGS="$RPM_OPT_FLAGS" ROOT="$RPM_BUILD_ROOT"
 } ; popd
-
 
 %install
 rm -rf $RPM_BUILD_ROOT
