@@ -1,5 +1,5 @@
 #
-%define         _kernel24       %(echo %{_kernel_ver} | grep -q '2\.[012]\.' ; echo $?)
+%define         _kernel24       %(echo %{_kernel_ver} | grep -qv '2\.4\.' ; echo $?)
 Summary:	IrDA Utilities
 Summary(pl):	Narzêdzia do IrDA
 Name:		irda-utils
