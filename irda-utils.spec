@@ -3,10 +3,10 @@ Summary(pl):	Narzêdzia do IrDA
 Name:		irda-utils
 Version:	0.9.14
 Release:	1
-Source0:	http://www.cs.uit.no/~dagb/irda/irda-utils/%{name}-%{version}.tar.gz
+Source0:	http://prdownloads.sourceforge.net/irda/%{name}-%{version}.tar.gz
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
-URL:		http://www.cs.uit.no/~dagb/irda/irda-utils/
+URL:		http://irda.sourceforge.net
 License:	GPL
 Group:		Applications/System
 Group(de):	Applikationen/System
