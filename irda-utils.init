@@ -39,7 +39,7 @@ case "$1" in
 		# Set irda0 device up
 		ip link set irda0 up
 	else
-		msg_Already_Running "IrDA"
+		msg_already_running "IrDA"
 		exit 1
 	fi
 	;;
@@ -50,7 +50,7 @@ case "$1" in
 		killproc irattach
 		rm -f /var/lock/subsys/irda > /dev/null 2>&1
 	else
-		msg_Not_Running "IrDA"
+		msg_not_running "IrDA"
 		exit 1
 	fi
   ;;
@@ -62,7 +62,7 @@ case "$1" in
 	$0 start
 	;;
   *)
-        msg_Usage "$0 {start|stop|restart|reload|status}"
+        msg_usage "$0 {start|stop|restart|reload|status}"
         exit 1
 esac
 
