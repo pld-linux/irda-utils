@@ -83,8 +83,9 @@ cd irattach
 cd ..
 
 cd irdadump
+rm -f missing
 %{__libtoolize}
-aclocal
+%{__aclocal}
 %{__autoconf}
 %{__automake}
 %configure
