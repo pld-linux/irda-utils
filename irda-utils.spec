@@ -1,12 +1,14 @@
-Summary: IrDA Utilities
-Name: irda-utils
-Version: 0.9.10
-Release: 1
-Source: http://www.cs.uit.no/~dagb/irda/irda-utils/irda-utils-0.9.10.tar.gz
-Patch0: irda-utils-noirda.patch
-Url: http://www.cs.uit.no/~dagb/irda/irda-utils/
-Copyright: GPL
-Group: Applications/System
+Summary:	IrDA Utilities
+Name:		irda-utils
+Version:	0.9.10
+Release:	1
+Source0:	http://www.cs.uit.no/~dagb/irda/irda-utils/%{name}-%{version}.tar.gz
+Patch0:		%{name}-noirda.patch
+Url:		http://www.cs.uit.no/~dagb/irda/irda-utils/
+License:	GPL
+Group:		Applications/System
+Group(de):	Applikationen/System
+Group(pl):	Aplikacje/System
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -15,9 +17,10 @@ uses infrared wireless communication so no cables are required. Speeds
 range from 9600bps to 4Mbps. The types of devices that support IrDA
 are LAN adapters, PDA's, printers, laptops, mobile phones etc.
 
-Linux-IrDA is a GNU implementation of the IrDA protocols specifications
-written from scratch. Linux-IrDA supports most of the IrDA protocols
-like IrLAP, IrLMP, IrIAP, IrTTP, IrLPT, IrLAN, IrCOMM and IrOBEX.
+Linux-IrDA is a GNU implementation of the IrDA protocols
+specifications written from scratch. Linux-IrDA supports most of the
+IrDA protocols like IrLAP, IrLMP, IrIAP, IrTTP, IrLPT, IrLAN, IrCOMM
+and IrOBEX.
 
 The IrDA Utils package is a collection of programs, that enables the
 use of the IrDA protocols. Some user-space configuration is required
@@ -36,15 +39,15 @@ programs mentioned in this document.
 %{__make} RPM_OPT_FLAGS="$RPM_OPT_FLAGS" ROOT="$RPM_BUILD_ROOT" -C irmanager
 
 pushd irdalib ; {
-  CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" ./autogen.sh --prefix=/usr
+CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" ./autogen.sh --prefix=%{_prefix}
   make RPM_OPT_FLAGS="$RPM_OPT_FLAGS" ROOT="$RPM_BUILD_ROOT"
 } ; popd
 
 pushd irdadump ; {
-  CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" ./autogen.sh --prefix=/usr
+CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" ./autogen.sh --prefix=%{_prefix}
   make RPM_OPT_FLAGS="$RPM_OPT_FLAGS" ROOT="$RPM_BUILD_ROOT"
   cd gtk
-  CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=/usr
+CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%{_prefix}
   make RPM_OPT_FLAGS="$RPM_OPT_FLAGS" ROOT="$RPM_BUILD_ROOT"
 } ; popd
 
@@ -53,7 +56,7 @@ pushd irdaping ; {
 } ; popd
 
 pushd obex ; {
-  CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" ./autogen.sh --prefix=/usr
+CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" ./autogen.sh --prefix=%{_prefix}
   make RPM_OPT_FLAGS="$RPM_OPT_FLAGS" ROOT="$RPM_BUILD_ROOT"
 } ; popd
 
@@ -62,14 +65,14 @@ pushd obex_apps ; {
 } ; popd
 
 pushd gnobex ; {
-  CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" ./autogen.sh --prefix=/usr
+CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" ./autogen.sh --prefix=%{_prefix}
   make RPM_OPT_FLAGS="$RPM_OPT_FLAGS" ROOT="$RPM_BUILD_ROOT"
 } ; popd
 
 %install
 rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT/usr/sbin
-mkdir -p $RPM_BUILD_ROOT/usr/bin $RPM_BUILD_ROOT/usr/X11R6/bin
+install -d $RPM_BUILD_ROOT%{_sbindir}
+install -d $RPM_BUILD_ROOT%{_bindir} $RPM_BUILD_ROOT%{_prefix}/X11R6/bin
 
 %{__make} install -C irmanager \
 	ROOT="$RPM_BUILD_ROOT" 	DESTDIR=$RPM_BUILD_ROOT
@@ -82,20 +85,18 @@ mkdir -p $RPM_BUILD_ROOT/usr/bin $RPM_BUILD_ROOT/usr/X11R6/bin
 %{__make} install -C obex_apps \
 	ROOT="$RPM_BUILD_ROOT"	DESTDIR=$RPM_BUILD_ROOT
 
-cp irdadump/nox/irdadump $RPM_BUILD_ROOT/usr/bin
-cp irdadump/gtk/irdadump $RPM_BUILD_ROOT/usr/X11R6/bin/irdadump-X11
-cp gnobex/gnobex/gnobex $RPM_BUILD_ROOT/usr/X11R6/bin/gnobex
+cp irdadump/nox/irdadump $RPM_BUILD_ROOT%{_bindir}
+cp irdadump/gtk/irdadump $RPM_BUILD_ROOT%{_prefix}/X11R6/bin/irdadump-X11
+cp gnobex/gnobex/gnobex $RPM_BUILD_ROOT%{_prefix}/X11R6/bin/gnobex
 
 %files
-%defattr(-,root,root)
-/usr/sbin/*
-/usr/bin/*
-/usr/X11R6/bin/*
-/usr/include/irda
-/usr/include/obex
-/usr/lib/*
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_sbindir}/*
+%attr(755,root,root) %{_bindir}/*
+%{_prefix}/X11R6/bin/*
+%{_includedir}/irda
+%{_includedir}/obex
+%{_libdir}/*
 
-%changelog
-* Fri Sep 17 1999 Cristian Gafton <gafton@redhat.com>
-- build for RH 6.1
-- add pacth to make the damn package compile without any IrDA installed.
+%clean
+rm -rf $RPM_BUILD_ROOT
