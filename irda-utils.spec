@@ -1,4 +1,5 @@
 Summary:	IrDA Utilities
+Summary(pl):	Narzêdzia do IrDA
 Name:		irda-utils
 Version:	0.9.10
 Release:	1
@@ -36,37 +37,37 @@ programs mentioned in this document.
 %patch0 -p1 -b .noirda
 
 %build
-%{__make} RPM_OPT_FLAGS="$RPM_OPT_FLAGS" ROOT="$RPM_BUILD_ROOT" -C irmanager
+%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT" -C irmanager
 
 pushd irdalib ; {
-CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" ./autogen.sh --prefix=%{_prefix}
-  make RPM_OPT_FLAGS="$RPM_OPT_FLAGS" ROOT="$RPM_BUILD_ROOT"
+	CFLAGS="%{rpmcflags}" CXXFLAGS="%{rpmcflags}" ./autogen.sh --prefix=%{_prefix}
+	%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
 } ; popd
 
 pushd irdadump ; {
-CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" ./autogen.sh --prefix=%{_prefix}
-  make RPM_OPT_FLAGS="$RPM_OPT_FLAGS" ROOT="$RPM_BUILD_ROOT"
-  cd gtk
-CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%{_prefix}
-  make RPM_OPT_FLAGS="$RPM_OPT_FLAGS" ROOT="$RPM_BUILD_ROOT"
+	CFLAGS="%{rpmcflags}" CXXFLAGS="%{rpmcflags}" ./autogen.sh --prefix=%{_prefix}
+	%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
+	cd gtk
+	CFLAGS="%{rpmcflags}" CXXFLAGS="%{rpmcflags}" ./configure --prefix=%{_prefix}
+	%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
 } ; popd
 
 pushd irdaping ; {
-  make RPM_OPT_FLAGS="$RPM_OPT_FLAGS" ROOT="$RPM_BUILD_ROOT"
+	%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
 } ; popd
 
 pushd obex ; {
-CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" ./autogen.sh --prefix=%{_prefix}
-  make RPM_OPT_FLAGS="$RPM_OPT_FLAGS" ROOT="$RPM_BUILD_ROOT"
+	CFLAGS="%{rpmcflags}" CXXFLAGS="%{rpmcflags}" ./autogen.sh --prefix=%{_prefix}
+	%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
 } ; popd
 
 pushd obex_apps ; {
-  make RPM_OPT_FLAGS="$RPM_OPT_FLAGS" ROOT="$RPM_BUILD_ROOT"
+	%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
 } ; popd
 
 pushd gnobex ; {
-CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" ./autogen.sh --prefix=%{_prefix}
-  make RPM_OPT_FLAGS="$RPM_OPT_FLAGS" ROOT="$RPM_BUILD_ROOT"
+	CFLAGS="%{rpmcflags}" CXXFLAGS="%{rpmcflags}" ./autogen.sh --prefix=%{_prefix}
+	%{__make} RPM_OPT_FLAGS="%{rpmcflags}" ROOT="$RPM_BUILD_ROOT"
 } ; popd
 
 %install
@@ -85,9 +86,9 @@ install -d $RPM_BUILD_ROOT%{_bindir} $RPM_BUILD_ROOT%{_prefix}/X11R6/bin
 %{__make} install -C obex_apps \
 	ROOT="$RPM_BUILD_ROOT"	DESTDIR=$RPM_BUILD_ROOT
 
-cp irdadump/nox/irdadump $RPM_BUILD_ROOT%{_bindir}
-cp irdadump/gtk/irdadump $RPM_BUILD_ROOT%{_prefix}/X11R6/bin/irdadump-X11
-cp gnobex/gnobex/gnobex $RPM_BUILD_ROOT%{_prefix}/X11R6/bin/gnobex
+cp -f irdadump/nox/irdadump $RPM_BUILD_ROOT%{_bindir}
+cp -f irdadump/gtk/irdadump $RPM_BUILD_ROOT%{_prefix}/X11R6/bin/irdadump-X11
+cp -f gnobex/gnobex/gnobex $RPM_BUILD_ROOT%{_prefix}/X11R6/bin/gnobex
 
 %files
 %defattr(644,root,root,755)
