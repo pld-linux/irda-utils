@@ -8,6 +8,7 @@ Release:	3
 License:	GPL
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/irda/%{name}-%{version}.tar.gz
+# Source0-md5:	b69b75464d6ee72e6600a8459d9b68ac
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 URL:		http://irda.sourceforge.net/
