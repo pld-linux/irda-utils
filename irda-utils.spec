@@ -2,7 +2,7 @@ Summary:	IrDA Utilities
 Summary(pl):	Narzêdzia do IrDA
 Name:		irda-utils
 Version:	0.9.14
-Release:	3
+Release:	4
 License:	GPL
 Group:		Applications/System
 Group(de):	Applikationen/System
@@ -17,6 +17,7 @@ BuildRequires:	libtool
 BuildRequires:	glib-devel
 ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+Prereq:		/sbin/chkconfig
 
 %description
 IrDA is an exciting way of communicating with remote devices. IrDA
@@ -37,6 +38,24 @@ like IrOBEX is actually implemented in user-space.
 Most of the features are implemented in the kernel, so you must enable
 IrDA support in the kernel before you can use any of the tools and
 programs mentioned in this document.
+
+%description -l pl
+IrDA jest sposobem bezprzewodowej komunikacji z urz±dzeniami
+zewnêtrznymi przy u¿yciu podczerwieni. Szybko¶æ od 9600bps do 4Mbps.
+Rodzaje urz±dzeñ obs³uguj±cych IrDA: interfejsy LAN, PDA, drukarki,
+laptopy, telefony przeno¶ne itp.
+
+Linux-IrDA jest implementacj± GNU protoko³ów IrDA napisan± od
+pocz±tku. Obs³uguje wiêkszo¶æ protoko³ów: IrLAP, IrLMP, IrIAP, IrTTP,
+IrLPT, IrLAN, IrCOMM, IrOBEX.
+
+Pakiet irda-utils jest zestawem programów pozwalaj±cych na u¿ywanie
+protoko³ów IrDA. Czê¶æ narzêdzi jest wymaganych do uruchomienia IrDA,
+czê¶æ mo¿liwo¶ci, jak np. IrOBEX, jest zaimplementowanych w user-space.
+
+Wiêkszo¶æ mo¿liwo¶ci jest zaimplementowanych w j±drze, wiêc musisz
+mieæ j±dro z obs³ug± IrDA zanim u¿yjesz jakiegokolwiek narzêdzia
+z tego pakietu.
 
 %package devel
 Summary:	IrDA header files
@@ -106,6 +125,9 @@ install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/irda
 
 gzip -9nf README* etc/modules.conf.irda
 
+%clean
+rm -rf $RPM_BUILD_ROOT
+
 %post
 /sbin/chkconfig --add irda
 
@@ -120,9 +142,6 @@ if [ "$1" = 0 ]; then
 	fi
 	/sbin/chkconfig --del irda
 fi
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
