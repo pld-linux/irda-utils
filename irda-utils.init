@@ -31,13 +31,13 @@ fi
 case "$1" in
   start)
 	if [ ! -f /var/lock/subsys/irda ]; then
-                # Set irda0 device up
-                ip link set irda0 up
-	        # Attach irda device 
- 		msg_starting "IrDA"       
+		# Attach irda device 
+		msg_starting "IrDA"       
 		daemon /usr/sbin/irattach "${DEVICE}" ${ARGS}
 		RETVAL=$?
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/irda
+		# Set irda0 device up
+		ip link set irda0 up
 	else
 		msg_Already_Running "IrDA"
 		exit 1
@@ -46,16 +46,14 @@ case "$1" in
   stop)
   	if [ -f /var/lock/subsys/irda ]; then
 		msg_stopping "IrDA"
-        	# Stop service.
+		# Stop service.
 		killproc irattach
-ad additional kernel module
-
 		rm -f /var/lock/subsys/irda > /dev/null 2>&1
 	else
 		msg_Not_Running "IrDA"
 		exit 1
 	fi
-        ;;
+  ;;
   status)
 	status irattach
 	;;
