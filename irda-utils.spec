@@ -33,7 +33,7 @@ programs mentioned in this document.
 %patch0 -p1 -b .noirda
 
 %build
-make RPM_OPT_FLAGS="$RPM_OPT_FLAGS" ROOT="$RPM_BUILD_ROOT" -C irmanager
+%{__make} RPM_OPT_FLAGS="$RPM_OPT_FLAGS" ROOT="$RPM_BUILD_ROOT" -C irmanager
 
 pushd irdalib ; {
   CFLAGS="$RPM_OPT_FLAGS" CXXFLAGS="$RPM_OPT_FLAGS" ./autogen.sh --prefix=/usr
@@ -71,15 +71,15 @@ rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/usr/sbin
 mkdir -p $RPM_BUILD_ROOT/usr/bin $RPM_BUILD_ROOT/usr/X11R6/bin
 
-make install -C irmanager \
+%{__make} install -C irmanager \
 	ROOT="$RPM_BUILD_ROOT" 	DESTDIR=$RPM_BUILD_ROOT
-make install -C irdalib \
+%{__make} install -C irdalib \
 	ROOT="$RPM_BUILD_ROOT" 	DESTDIR=$RPM_BUILD_ROOT
-make install -C irdaping \
+%{__make} install -C irdaping \
 	ROOT="$RPM_BUILD_ROOT" 	DESTDIR=$RPM_BUILD_ROOT
-make install -C obex \
+%{__make} install -C obex \
 	ROOT="$RPM_BUILD_ROOT" 	DESTDIR=$RPM_BUILD_ROOT
-make install -C obex_apps \
+%{__make} install -C obex_apps \
 	ROOT="$RPM_BUILD_ROOT"	DESTDIR=$RPM_BUILD_ROOT
 
 cp irdadump/nox/irdadump $RPM_BUILD_ROOT/usr/bin
