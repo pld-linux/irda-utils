@@ -107,19 +107,10 @@ install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/irda
 gzip -9nf README* etc/modules.conf.irda
 
 %post
-/sbin/chkconfig --add irda
-
-if [ -f /var/lock/subsys/irda ]; then
-	/etc/rc.d/init.d/irda restart >&2
-fi
+NAME=irda; %chkconfig_add
 
 %preun
-if [ "$1" = 0 ]; then
-	if [ -f /var/lock/subsys/irda ]; then
-		/etc/rc.d/init.d/irda stop >&2
-	fi
-	/sbin/chkconfig --del irda
-fi
+NAME=irda; %chkconfig_del
 
 %clean
 rm -rf $RPM_BUILD_ROOT
