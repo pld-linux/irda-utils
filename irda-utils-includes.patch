@@ -1,0 +1,33 @@
+--- irda-utils-0.9.16/findchip/nsc.c.orig	2003-07-08 03:33:37.000000000 +0200
++++ irda-utils-0.9.16/findchip/nsc.c	2004-08-22 20:37:58.828522963 +0200
+@@ -33,7 +33,7 @@
+ #include <string.h>
+ #include <unistd.h>
+ #include <fcntl.h>
+-#include <asm/io.h>
++#include <sys/io.h>
+ 
+ #include "findchip.h"
+ 
+--- irda-utils-0.9.16/findchip/smc.c.orig	2003-07-08 03:33:37.000000000 +0200
++++ irda-utils-0.9.16/findchip/smc.c	2004-08-22 20:38:08.629169288 +0200
+@@ -32,7 +32,7 @@
+ #include <string.h>
+ #include <unistd.h>
+ #include <fcntl.h>
+-#include <asm/io.h>
++#include <sys/io.h>
+ 
+ #include "findchip.h"
+ 
+--- irda-utils-0.9.16/findchip/winbond.c.orig	2000-11-06 22:11:39.000000000 +0100
++++ irda-utils-0.9.16/findchip/winbond.c	2004-08-22 20:38:14.636726544 +0200
+@@ -32,7 +32,7 @@
+ #include <stdio.h>
+ #include <unistd.h>
+ #include <fcntl.h>
+-#include <asm/io.h>
++#include <sys/io.h>
+ 
+ #include "findchip.h"
+ 
