@@ -2,12 +2,14 @@
 # it's very important to add alias irda0 your_module to get irda-utils working in FIR case
 
 #
-# Activate IrDA?
-#
+# Activate IrDA at system startup ?
+# (Laptop users should remember that it consumes battery power)
 IRDA=no
 
+# You can either use IrDA "serial port" or a dedicated dongle
+# Check BIOS and manual for details.
 #
-# IrDA  device
+# IrDA device
 #
 DEVICE=/dev/ttyS1
 
