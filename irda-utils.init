@@ -32,8 +32,8 @@ RETVAL=0
 case "$1" in
   start)
 	if [ ! -f /var/lock/subsys/irda ]; then
-		# Attach irda device 
-		msg_starting "IrDA"       
+		# Attach irda device
+		msg_starting "IrDA"
 		daemon /usr/sbin/irattach "${DEVICE}" ${ARGS}
 		RETVAL=$?
 		[ $RETVAL -eq 0 ] && touch /var/lock/subsys/irda
