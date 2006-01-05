@@ -3,13 +3,14 @@ Summary(es):	Herramientas de IrDA
 Summary(pl):	Narzêdzia do IrDA
 Name:		irda-utils
 Version:	0.9.16
-Release:	1
+Release:	2
 License:	GPL
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/irda/%{name}-%{version}.tar.gz
 # Source0-md5:	2ff18f0571b5a331be7cd22fc3decd41
 Patch0:		%{name}-gtk+2.patch
 Patch1:		%{name}-includes.patch
+Patch2:		%{name}-gcc4.patch
 URL:		http://irda.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -97,6 +98,7 @@ Pliki nag³ówkowe IrDA, do budowania aplikacji korzystaj±cych z IrDA.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %ifarch %{ix86}
