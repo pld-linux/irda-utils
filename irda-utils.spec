@@ -1,6 +1,6 @@
 Summary:	IrDA Utilities
-Summary(es):	Herramientas de IrDA
-Summary(pl):	Narzêdzia do IrDA
+Summary(es.UTF-8):   Herramientas de IrDA
+Summary(pl.UTF-8):   NarzÄ™dzia do IrDA
 Name:		irda-utils
 Version:	0.9.17
 %define		_pre	pre3
@@ -43,56 +43,56 @@ Most of the features are implemented in the kernel, so you must enable
 IrDA support in the kernel before you can use any of the tools and
 programs mentioned in this document.
 
-%description -l es
+%description -l es.UTF-8
 IrDA es una manera excitante de comunicar con dispositivos remotos.
-IrDA usa comunicación inalámbrica infrarroja así que no hacen falta
+IrDA usa comunicaciÃ³n inalÃ¡mbrica infrarroja asÃ­ que no hacen falta
 ningunos cables. Las velocidades varian entre 9600 bps y 4 Mbps. Los
 equipos que soportan IrDA son adaptadores de LAN, PDAs, impresoras,
-portátiles, teléfonos móviles etc.
+portÃ¡tiles, telÃ©fonos mÃ³viles etc.
 
-Linux-IrDA es una implementación GNU de las especificaciones de los
-protocolos de IrDA. Linux-Irda soporta la mayoría de los protocolos:
+Linux-IrDA es una implementaciÃ³n GNU de las especificaciones de los
+protocolos de IrDA. Linux-Irda soporta la mayorÃ­a de los protocolos:
 IrLAP, IrLMP, IrIAP, IrTTP, IrLPT, IrLAN, IrCOMM y IrOBEX.
 
-El paquete IrDA Utils es una colección de programas que permite el uso
+El paquete IrDA Utils es una colecciÃ³n de programas que permite el uso
 de los protocolos de IrDA. Hay que configurar algunas cosas para hacer
-IrDA funcionar en su máquina, y algunas cualidaded de IrDA están
+IrDA funcionar en su mÃ¡quina, y algunas cualidaded de IrDA estÃ¡n
 implementadas en el espacio del usuario.
 
-La mayoría de las cualidades es implementada en el núcleo, así que
-tiene que habilitar el soporte de IrDA en el núcleo antes de poder
-utilizar cualquiera de las herramientas y los programas aquí
+La mayorÃ­a de las cualidades es implementada en el nÃºcleo, asÃ­ que
+tiene que habilitar el soporte de IrDA en el nÃºcleo antes de poder
+utilizar cualquiera de las herramientas y los programas aquÃ­
 mencionados.
 
-%description -l pl
-IrDA jest sposobem bezprzewodowej komunikacji z urz±dzeniami
-zewnêtrznymi przy u¿yciu podczerwieni. Szybko¶æ od 9600bps do 4Mbps.
-Rodzaje urz±dzeñ obs³uguj±cych IrDA: interfejsy LAN, PDA, drukarki,
-laptopy, telefony przeno¶ne itp.
+%description -l pl.UTF-8
+IrDA jest sposobem bezprzewodowej komunikacji z urzÄ…dzeniami
+zewnÄ™trznymi przy uÅ¼yciu podczerwieni. SzybkoÅ›Ä‡ od 9600bps do 4Mbps.
+Rodzaje urzÄ…dzeÅ„ obsÅ‚ugujÄ…cych IrDA: interfejsy LAN, PDA, drukarki,
+laptopy, telefony przenoÅ›ne itp.
 
-Linux-IrDA jest implementacj± GNU protoko³ów IrDA napisan± od
-pocz±tku. Obs³uguje wiêkszo¶æ protoko³ów: IrLAP, IrLMP, IrIAP, IrTTP,
+Linux-IrDA jest implementacjÄ… GNU protokoÅ‚Ã³w IrDA napisanÄ… od
+poczÄ…tku. ObsÅ‚uguje wiÄ™kszoÅ›Ä‡ protokoÅ‚Ã³w: IrLAP, IrLMP, IrIAP, IrTTP,
 IrLPT, IrLAN, IrCOMM, IrOBEX.
 
-Pakiet irda-utils jest zestawem programów pozwalaj±cych na u¿ywanie
-protoko³ów IrDA. Czê¶æ narzêdzi jest wymaganych do uruchomienia IrDA,
-czê¶æ mo¿liwo¶ci, jak np. IrOBEX, jest zaimplementowanych w
+Pakiet irda-utils jest zestawem programÃ³w pozwalajÄ…cych na uÅ¼ywanie
+protokoÅ‚Ã³w IrDA. CzÄ™Å›Ä‡ narzÄ™dzi jest wymaganych do uruchomienia IrDA,
+czÄ™Å›Ä‡ moÅ¼liwoÅ›ci, jak np. IrOBEX, jest zaimplementowanych w
 user-space.
 
-Wiêkszo¶æ mo¿liwo¶ci jest zaimplementowanych w j±drze, wiêc musisz
-mieæ j±dro z obs³ug± IrDA zanim u¿yjesz jakiegokolwiek narzêdzia z
+WiÄ™kszoÅ›Ä‡ moÅ¼liwoÅ›ci jest zaimplementowanych w jÄ…drze, wiÄ™c musisz
+mieÄ‡ jÄ…dro z obsÅ‚ugÄ… IrDA zanim uÅ¼yjesz jakiegokolwiek narzÄ™dzia z
 tego pakietu.
 
 %package devel
 Summary:	IrDA header files
-Summary(pl):	Pliki nag³ówkowe IrDA
+Summary(pl.UTF-8):   Pliki nagÅ‚Ã³wkowe IrDA
 Group:		Development/Libraries
 
 %description devel
 IrDA header files to be used by IrDA applications.
 
-%description devel -l pl
-Pliki nag³ówkowe IrDA, do budowania aplikacji korzystaj±cych z IrDA.
+%description devel -l pl.UTF-8
+Pliki nagÅ‚Ã³wkowe IrDA, do budowania aplikacji korzystajÄ…cych z IrDA.
 
 %prep
 %setup -q -n %{name}-%{version}-%{_pre}
