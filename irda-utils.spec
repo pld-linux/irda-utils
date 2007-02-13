@@ -1,6 +1,6 @@
 Summary:	IrDA Utilities
-Summary(es.UTF-8):   Herramientas de IrDA
-Summary(pl.UTF-8):   Narzędzia do IrDA
+Summary(es.UTF-8):	Herramientas de IrDA
+Summary(pl.UTF-8):	Narzędzia do IrDA
 Name:		irda-utils
 Version:	0.9.17
 %define		_pre	pre3
@@ -85,7 +85,7 @@ tego pakietu.
 
 %package devel
 Summary:	IrDA header files
-Summary(pl.UTF-8):   Pliki nagłówkowe IrDA
+Summary(pl.UTF-8):	Pliki nagłówkowe IrDA
 Group:		Development/Libraries
 
 %description devel
