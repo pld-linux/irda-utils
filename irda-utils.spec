@@ -2,19 +2,15 @@ Summary:	IrDA Utilities
 Summary(es.UTF-8):	Herramientas de IrDA
 Summary(pl.UTF-8):	Narzędzia do IrDA
 Name:		irda-utils
-Version:	0.9.17
-%define		_pre	pre3
-Release:	0.%{_pre}
-License:	GPL
+Version:	0.9.18
+Release:	1
+License:	GPL v2+
 Group:		Applications/System
-Source0:	http://dl.sourceforge.net/irda/%{name}-%{version}-%{_pre}.tar.gz
-# Source0-md5:	3f3076c3ce86ec94bd15488d907a1bc3
+Source0:	http://downloads.sourceforge.net/irda/%{name}-%{version}.tar.gz
+# Source0-md5:	84dc12aa4c3f61fccb8d8919bf4079bb
 Patch0:		%{name}-includes.patch
-Patch1:		%{name}-gcc4.patch
+Patch1:		%{name}-make.patch
 URL:		http://irda.sourceforge.net/
-BuildRequires:	autoconf
-BuildRequires:	automake
-BuildRequires:	libtool
 BuildRequires:	glib2-devel >= 2.0.0
 BuildRequires:	linux-libc-headers >= 2.4.0
 BuildRequires:	pkgconfig
@@ -95,42 +91,24 @@ IrDA header files to be used by IrDA applications.
 Pliki nagłówkowe IrDA, do budowania aplikacji korzystających z IrDA.
 
 %prep
-%setup -q -n %{name}-%{version}-%{_pre}
+%setup -q
 %patch0 -p1
 %patch1 -p1
 
 %build
 %ifarch %{ix86}
 %{__make} -C findchip \
-	RPM_OPT_FLAGS="%{rpmcflags}"
+	CC="%{__cc}" \
+	RPM_OPT_FLAGS="%{rpmcflags}" \
+	V=1
 %endif
 
-%{__make} -C irattach \
-	RPM_OPT_FLAGS="%{rpmcflags}"
-
-cd irdadump
-%{__libtoolize}
-%{__aclocal}
-%{__autoconf}
-%{__autoheader}
-%{__automake}
-%configure
-%{__make}
-cd ..
-
-%{__make} -C irdaping \
-	RPM_OPT_FLAGS="%{rpmcflags}"
-
-%{__make} -C irsockets \
+for d in irattach irdadump irdaping irnetd irsockets psion smcinit tekram ; do
+%{__make} -C $d \
+	CC="%{__cc}" \
 	RPM_OPT_FLAGS="%{rpmcflags}" \
-	SYS_INCLUDES=
-
-%{__make} -C psion \
-	RPM_OPT_FLAGS="%{rpmcflags}"
-
-%{__make} -C tekram \
-	RPM_OPT_FLAGS="%{rpmcflags}" \
-	SYS_INCLUDES="-I../include"
+	V=1
+done
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -140,26 +118,70 @@ install -d $RPM_BUILD_ROOT{%{_sbindir},%{_bindir},%{_includedir}}
 install findchip/findchip $RPM_BUILD_ROOT%{_sbindir}
 %endif
 install irattach/{irattach,dongle_attach} $RPM_BUILD_ROOT%{_sbindir}
-install irattach/README README.irattach
-install irdadump/shell/irdadump $RPM_BUILD_ROOT%{_sbindir}
-install irdadump/README README.irdadump
+ln irattach/ChangeLog ChangeLog.irattach
+ln irattach/README README.irattach
+install irdadump/irdadump $RPM_BUILD_ROOT%{_sbindir}
+ln irdadump/ChangeLog ChangeLog.irdadump
+ln irdadump/README README.irdadump
 install irdaping/irdaping $RPM_BUILD_ROOT%{_sbindir}
+install irnetd/irnetd $RPM_BUILD_ROOT%{_sbindir}
 install irsockets/{ias_query,irdaspray,irprintf,irprintfx,irscanf,irscanfx,recv_ultra,send_ultra} $RPM_BUILD_ROOT%{_sbindir}
-install irsockets/README README.irsockets
+ln irsockets/README README.irsockets
 install psion/irpsion5 $RPM_BUILD_ROOT%{_bindir}
+install smcinit/{smcinit,tosh1800-smcinit,tosh2450-smcinit} $RPM_BUILD_ROOT%{_sbindir}
+ln smcinit/AUTHORS AUTHORS.smcinit
+ln smcinit/ChangeLog ChangeLog.smcinit
+ln smcinit/README README.smcinit
+ln smcinit/README.Peri README.smcinit.Peri
+ln smcinit/README.Rob README.smcinit.Rob
+ln smcinit/README.Tom README.smcinit.Tom
 install tekram/irkbd $RPM_BUILD_ROOT%{_sbindir}
-install tekram/README README.tekram
+ln tekram/README README.tekram
 install include/irda.h $RPM_BUILD_ROOT%{_includedir}
+
+for s in 4 7 8 ; do
+	install -d $RPM_BUILD_ROOT%{_mandir}/man${s}
+	for f in man/*.${s}.gz ; do
+		gzip -dc "$f" >$RPM_BUILD_ROOT%{_mandir}/man${s}/$(basename $f .gz)
+	done
+done
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README* etc/modules.conf.irda
-%attr(755,root,root) %{_sbindir}/*
-%attr(755,root,root) %{_bindir}/*
+%doc AUTHORS* ChangeLog* README* etc/modules.conf.irda man/{ChangeLog,README,TODO}.man smcinit/RobMiller-irda.html
+%attr(755,root,root) %{_sbindir}/dongle_attach
+%attr(755,root,root) %{_sbindir}/findchip
+%attr(755,root,root) %{_sbindir}/ias_query
+%attr(755,root,root) %{_sbindir}/irattach
+%attr(755,root,root) %{_sbindir}/irdadump
+%attr(755,root,root) %{_sbindir}/irdaping
+%attr(755,root,root) %{_sbindir}/irdaspray
+%attr(755,root,root) %{_sbindir}/irkbd
+%attr(755,root,root) %{_sbindir}/irnetd
+%attr(755,root,root) %{_sbindir}/irprintf
+%attr(755,root,root) %{_sbindir}/irprintfx
+%attr(755,root,root) %{_sbindir}/irscanf
+%attr(755,root,root) %{_sbindir}/irscanfx
+%attr(755,root,root) %{_sbindir}/recv_ultra
+%attr(755,root,root) %{_sbindir}/send_ultra
+%attr(755,root,root) %{_sbindir}/smcinit
+%attr(755,root,root) %{_sbindir}/tosh1800-smcinit
+%attr(755,root,root) %{_sbindir}/tosh2450-smcinit
+%attr(755,root,root) %{_bindir}/irpsion5
+%{_mandir}/man4/irnet.4*
+%{_mandir}/man7/irda.7*
+%{_mandir}/man8/findchip.8*
+%{_mandir}/man8/irattach.8*
+%{_mandir}/man8/irdadump.8*
+%{_mandir}/man8/irdaping.8*
+%{_mandir}/man8/irnetd.8*
+%{_mandir}/man8/irpsion5.8*
+%{_mandir}/man8/smcinit.8*
+%{_mandir}/man8/tosh1800-smcinit.8*
 
 %files devel
 %defattr(644,root,root,755)
-%{_includedir}/*
+%{_includedir}/irda.h

@@ -1,0 +1,23 @@
+--- irda-utils-0.9.18/irsockets/Makefile.orig	2006-07-11 08:16:06.000000000 +0200
++++ irda-utils-0.9.18/irsockets/Makefile	2010-07-08 22:12:04.693393415 +0200
+@@ -38,9 +38,9 @@
+ #
+ # System stuff
+ #
+-SYS_INCLUDES = -I/usr/include -I/usr/src/linux/include
++SYS_INCLUDES = -I/usr/include -I../include
+ SYS_LIBRARIES = 
+-SYS_LIBPATH = -L/usr/lib -L/usr/local/lib 
++SYS_LIBPATH =
+ 
+ CFLAGS= $(SYS_INCLUDES) $(RPM_OPT_FLAGS) -O2 -Wall -Wstrict-prototypes
+ 
+@@ -49,7 +49,7 @@
+ TARGETS = irprintf irprintfx irscanf irscanfx irdaspray ias_query send_ultra recv_ultra
+ 
+ 
+-all: $(OBJS)
++all: $(TARGETS)
+ 
+ 
+ %: %.o
