@@ -3,7 +3,7 @@ Summary(es.UTF-8):	Herramientas de IrDA
 Summary(pl.UTF-8):	Narzędzia do IrDA
 Name:		irda-utils
 Version:	0.9.18
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		Applications/System
 Source0:	http://downloads.sourceforge.net/irda/%{name}-%{version}.tar.gz
