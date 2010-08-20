@@ -96,7 +96,7 @@ Pliki nagłówkowe IrDA, do budowania aplikacji korzystających z IrDA.
 %patch1 -p1
 
 %build
-%ifarch %{ix86}
+%ifarch %{ix86} %{x8664}
 %{__make} -C findchip \
 	CC="%{__cc}" \
 	RPM_OPT_FLAGS="%{rpmcflags}" \
@@ -114,7 +114,7 @@ done
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sbindir},%{_bindir},%{_includedir}}
 
-%ifarch %{ix86}
+%ifarch %{ix86} %{x8664}
 install findchip/findchip $RPM_BUILD_ROOT%{_sbindir}
 %endif
 install irattach/{irattach,dongle_attach} $RPM_BUILD_ROOT%{_sbindir}
@@ -153,7 +153,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS* ChangeLog* README* etc/modules.conf.irda man/{ChangeLog,README,TODO}.man smcinit/RobMiller-irda.html
 %attr(755,root,root) %{_sbindir}/dongle_attach
+%ifarch %{ix86} %{x8664}
 %attr(755,root,root) %{_sbindir}/findchip
+%endif
 %attr(755,root,root) %{_sbindir}/ias_query
 %attr(755,root,root) %{_sbindir}/irattach
 %attr(755,root,root) %{_sbindir}/irdadump
@@ -173,7 +175,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/irpsion5
 %{_mandir}/man4/irnet.4*
 %{_mandir}/man7/irda.7*
+%ifarch %{ix86} %{x8664}
 %{_mandir}/man8/findchip.8*
+%endif
 %{_mandir}/man8/irattach.8*
 %{_mandir}/man8/irdadump.8*
 %{_mandir}/man8/irdaping.8*
