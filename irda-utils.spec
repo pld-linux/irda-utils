@@ -13,6 +13,7 @@ Patch1:		%{name}-make.patch
 URL:		http://irda.sourceforge.net/
 BuildRequires:	glib2-devel >= 2.0.0
 BuildRequires:	linux-libc-headers >= 2.4.0
+BuildRequires:	pciutils-devel
 BuildRequires:	pkgconfig
 Requires(post,preun):	/sbin/chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
