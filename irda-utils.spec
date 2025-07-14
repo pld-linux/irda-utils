@@ -93,8 +93,8 @@ Pliki nagłówkowe IrDA, do budowania aplikacji korzystających z IrDA.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
+%patch -P0 -p1
+%patch -P1 -p1
 
 %build
 %ifarch %{ix86} %{x8664}
